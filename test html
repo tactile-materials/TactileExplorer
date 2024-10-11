@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactile Materials</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">TACTILE MATERIALS</div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="filters">
+            <div class="filter-category" id="material-filters">
+                <h3>Material Type:</h3>
+                <div class="filter-options">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="select-all-material" class="filter-checkbox">
+                        <label for="select-all-material" class="filter-label">Select All</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="stainless-steel" class="filter-checkbox" data-category="material" data-filter="stainless-steel">
+                        <label for="stainless-steel" class="filter-label">Stainless Steel</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="carbon-steel" class="filter-checkbox" data-category="material" data-filter="carbon-steel">
+                        <label for="carbon-steel" class="filter-label">Carbon Steel</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="aluminum" class="filter-checkbox" data-category="material" data-filter="aluminum">
+                        <label for="aluminum" class="filter-label">Aluminum</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="plastic" class="filter-checkbox" data-category="material" data-filter="plastic">
+                        <label for="plastic" class="filter-label">Plastic</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-category" id="alloy-filters">
+                <h3>Alloy:</h3>
+                <div class="filter-options">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="select-all-alloy" class="filter-checkbox">
+                        <label for="select-all-alloy" class="filter-label">Select All</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="6061" class="filter-checkbox" data-category="alloy" data-filter="6061">
+                        <label for="6061" class="filter-label">6061</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="7075" class="filter-checkbox" data-category="alloy" data-filter="7075">
+                        <label for="7075" class="filter-label">7075</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="a36" class="filter-checkbox" data-category="alloy" data-filter="a36">
+                        <label for="a36" class="filter-label">A36</label>
+                    </div>
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="a572" class="filter-checkbox" data-category="alloy" data-filter="a572">
+                        <label for="a572" class="filter-label">A572</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="filter-category" id="thickness-filters">
+                <h3>Thickness:</h3>
+                <div class="slider-container">
+                    <div class="slider-range">
+                        <div id="thickness-range"></div>
+                        <p>
+                            <span id="thickness-amount"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="reset-btn" id="reset-filters">Reset</button>
+        </div>
+        <div class="gallery">
+            <!-- 20 placeholder videos will be inserted here by JavaScript -->
+        </div>
+    </div>
+<footer class="footer">
+    <a href="mailto:tactile.engineering.materials@gmail.com" id="contact-link" class="contact-link">Contact Us</a>
+</footer>
+</body>
+</html>
