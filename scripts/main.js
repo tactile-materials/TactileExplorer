@@ -94,28 +94,6 @@ $(document).ready(function() {
     });
     let isLoggedIn = false;
 let isPaidUser = false;
-// Memberful integration
-document.addEventListener('memberful.ready', function() {
-    Memberful.checkAuth(function(member) {
-        if (member) {
-            document.getElementById('user-status').textContent = 'Welcome, ' + member.full_name;
-            document.getElementById('login-btn').textContent = 'Account';
-            document.getElementById('login-btn').onclick = Memberful.openAccount;
-            document.getElementById('signup-btn').style.display = 'none';
-            document.getElementById('upgrade-btn').style.display = member.subscribed ? 'none' : 'inline';
-        } else {
-            document.getElementById('user-status').textContent = '';
-            document.getElementById('login-btn').textContent = 'Log In';
-            document.getElementById('login-btn').onclick = Memberful.openSignin;
-            document.getElementById('signup-btn').style.display = 'inline';
-            document.getElementById('upgrade-btn').style.display = 'none';
-        }
-        updateContentVisibility(member);
-    });
-});
-document.getElementById('login-btn').onclick = Memberful.openSignin;
-document.getElementById('signup-btn').onclick = Memberful.openSignup;
-document.getElementById('upgrade-btn').onclick = Memberful.openAccount;
 
 function updateContentVisibility(member) {
     $('.video-item').each(function() {
@@ -130,4 +108,30 @@ function updateContentVisibility(member) {
 
     $('.premium-content').toggle(member && member.subscribed);
 }
+document.addEventListener('memberful.ready', function() {
+    Memberful.checkAuth(function(member) {
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const upgradeBtn = document.getElementById('upgrade-btn');
+        const userStatus = document.getElementById('user-status');
+
+        if (member) {
+            // User is logged in
+            userStatus.textContent = 'Welcome, ' + member.full_name;
+            loginBtn.textContent = 'Account';
+            loginBtn.setAttribute('data-memberful-account', '');
+            loginBtn.removeAttribute('data-memberful-sign-in');
+            signupBtn.style.display = 'none';
+            upgradeBtn.style.display = member.subscribed ? 'none' : 'inline';
+        } else {
+            // User is not logged in
+            userStatus.textContent = '';
+            loginBtn.textContent = 'Log In';
+            loginBtn.setAttribute('data-memberful-sign-in', '');
+            loginBtn.removeAttribute('data-memberful-account');
+            signupBtn.style.display = 'inline';
+            upgradeBtn.style.display = 'none';
+        }
+    });
 });
+);
