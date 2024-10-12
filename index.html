@@ -16,13 +16,14 @@
           site: ["https://tactilematerials.memberful.com"]
         });
       </script>     
+      <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://js.memberful.com https://d1yxac6hjodhgc.cloudfront.net; script-src 'self' 'unsafe-inline' https://js.memberful.com https://d1yxac6hjodhgc.cloudfront.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;">
 </head>
 <body>
     <header>
         <div class="header-content">
             <div class="logo">TACTILE MATERIALS</div>
-
             <div class="user-auth">
+                <span id="user-status"></span>
                 <button id="login-btn" data-memberful-sign-in>Log In</button>
                 <button id="signup-btn" data-memberful-sign-up>Sign Up</button>
                 <button id="upgrade-btn" data-memberful-account style="display: none;">Upgrade to Premium</button>
@@ -107,15 +108,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="scripts/main.js"></script>
     <script type="text/javascript">
-        (function(d, s) {
-          var sc, t;
-          sc = document.createElement(s);
-          sc.type = 'text/javascript';
-          sc.async = true;
-          sc.src = 'https://d1yxac6hjodhgc.cloudfront.net/memberful.js';
-          t = document.getElementsByTagName(s)[0];
-          t.parentNode.insertBefore(sc, t);
-        })(document, 'script');
-      </script>
+        (function(c) {
+          var script = document.createElement("script");
+          script.src = "https://js.memberful.com/embed.js";
+          script.onload = function() { Memberful.setup(c) };
+          document.head.appendChild(script);
+        })({
+          site: ["https://tactilematerials.memberful.com"]
+        });
+      </script>      
 </body>
 </html>
