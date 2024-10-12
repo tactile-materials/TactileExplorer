@@ -108,30 +108,37 @@ function updateContentVisibility(member) {
 
     $('.premium-content').toggle(member && member.subscribed);
 }
-document.addEventListener('memberful.ready', function() {
-    Memberful.checkAuth(function(member) {
-        const loginBtn = document.getElementById('login-btn');
-        const signupBtn = document.getElementById('signup-btn');
-        const upgradeBtn = document.getElementById('upgrade-btn');
-        const userStatus = document.getElementById('user-status');
+$(document).ready(function() {
+    // Your existing code here
 
-        if (member) {
-            // User is logged in
-            userStatus.textContent = 'Welcome, ' + member.full_name;
-            loginBtn.textContent = 'Account';
-            loginBtn.setAttribute('data-memberful-account', '');
-            loginBtn.removeAttribute('data-memberful-sign-in');
-            signupBtn.style.display = 'none';
-            upgradeBtn.style.display = member.subscribed ? 'none' : 'inline';
-        } else {
-            // User is not logged in
-            userStatus.textContent = '';
-            loginBtn.textContent = 'Log In';
-            loginBtn.setAttribute('data-memberful-sign-in', '');
-            loginBtn.removeAttribute('data-memberful-account');
-            signupBtn.style.display = 'inline';
-            upgradeBtn.style.display = 'none';
-        }
+    // Memberful integration
+    document.addEventListener('memberful.ready', function() {
+        Memberful.checkAuth(function(member) {
+            const loginBtn = document.getElementById('login-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            const upgradeBtn = document.getElementById('upgrade-btn');
+            const userStatus = document.getElementById('user-status');
+
+            if (loginBtn && signupBtn && upgradeBtn && userStatus) {
+                if (member) {
+                    // User is logged in
+                    userStatus.textContent = 'Welcome, ' + member.full_name;
+                    loginBtn.textContent = 'Account';
+                    loginBtn.setAttribute('data-memberful-account', '');
+                    loginBtn.removeAttribute('data-memberful-sign-in');
+                    signupBtn.style.display = 'none';
+                    upgradeBtn.style.display = member.subscribed ? 'none' : 'inline';
+                } else {
+                    // User is not logged in
+                    userStatus.textContent = '';
+                    loginBtn.textContent = 'Log In';
+                    loginBtn.setAttribute('data-memberful-sign-in', '');
+                    loginBtn.removeAttribute('data-memberful-account');
+                    signupBtn.style.display = 'inline';
+                    upgradeBtn.style.display = 'none';
+                }
+            } else {
+                console.error('One or more required elements are missing from the DOM');
+            }
+        });
     });
-});
-);
