@@ -92,24 +92,23 @@ $(document).ready(function() {
         $("#thickness-amount").text('0" - 2"');
         $('.video-item').show();
     });
+
     let isLoggedIn = false;
-let isPaidUser = false;
+    let isPaidUser = false;
 
-function updateContentVisibility(member) {
-    $('.video-item').each(function() {
-        const isPremium = Math.random() < 0.3; // 30% chance of being premium content
-        if (isPremium) {
-            $(this).addClass('premium-content');
-            if (!(member && member.subscribed)) {
-                $(this).find('.video-container').html('<div class="premium-overlay">Premium Content</div>');
+    function updateContentVisibility(member) {
+        $('.video-item').each(function() {
+            const isPremium = Math.random() < 0.3; // 30% chance of being premium content
+            if (isPremium) {
+                $(this).addClass('premium-content');
+                if (!(member && member.subscribed)) {
+                    $(this).find('.video-container').html('<div class="premium-overlay">Premium Content</div>');
+                }
             }
-        }
-    });
+        });
 
-    $('.premium-content').toggle(member && member.subscribed);
-}
-$(document).ready(function() {
-    // Your existing code here
+        $('.premium-content').toggle(member && member.subscribed);
+    }
 
     // Memberful integration
     document.addEventListener('memberful.ready', function() {
@@ -137,8 +136,58 @@ $(document).ready(function() {
                     signupBtn.style.display = 'inline';
                     upgradeBtn.style.display = 'none';
                 }
+                updateContentVisibility(member);
             } else {
                 console.error('One or more required elements are missing from the DOM');
             }
         });
     });
+    $(document).ready(function() {
+    // ... (keep your existing code here)
+
+    // Memberful integration
+    $(document).ready(function() {
+        // ... (keep your existing code here)
+    
+        // Memberful integration
+        function initMemberful() {
+            Memberful.checkAuth(function(member) {
+                const loginBtn = document.getElementById('login-btn');
+                const signupBtn = document.getElementById('signup-btn');
+                const upgradeBtn = document.getElementById('upgrade-btn');
+                const userStatus = document.getElementById('user-status');
+    
+                if (loginBtn && signupBtn && upgradeBtn && userStatus) {
+                    if (member) {
+                        // User is logged in
+                        userStatus.textContent = 'Welcome, ' + member.full_name;
+                        loginBtn.textContent = 'Account';
+                        loginBtn.setAttribute('data-memberful-account', '');
+                        loginBtn.removeAttribute('data-memberful-sign-in');
+                        signupBtn.style.display = 'none';
+                        upgradeBtn.style.display = member.subscribed ? 'none' : 'inline';
+                    } else {
+                        // User is not logged in
+                        userStatus.textContent = '';
+                        loginBtn.textContent = 'Log In';
+                        loginBtn.setAttribute('data-memberful-sign-in', '');
+                        loginBtn.removeAttribute('data-memberful-account');
+                        signupBtn.style.display = 'inline';
+                        upgradeBtn.style.display = 'none';
+                    }
+                    updateContentVisibility(member);
+                } else {
+                    console.error('One or more required elements are missing from the DOM');
+                }
+            });
+        }
+    
+        // Check if Memberful is loaded, if not, wait for it
+        if (typeof Memberful !== 'undefined') {
+            initMemberful();
+        } else {
+            document.addEventListener('memberful.ready', initMemberful);
+        }
+    });
+});
+});
