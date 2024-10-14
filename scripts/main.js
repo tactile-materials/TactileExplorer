@@ -99,45 +99,4 @@ $(document).ready(function() {
         $("#thickness-amount").text('0" - 2"');
         $('.video-item').show();
     });
-    let isLoggedIn = false;
-let isPaidUser = false;
-
-function checkUserStatus() {
-    // This would typically involve a server request
-    // For this example, we'll use local variables
-    if (isLoggedIn) {
-        document.getElementById('user-status').textContent = isPaidUser ? 'Premium User' : 'Free User';
-        document.getElementById('login-btn').textContent = 'Log Out';
-        document.getElementById('upgrade-btn').style.display = isPaidUser ? 'none' : 'inline';
-    } else {
-        document.getElementById('user-status').textContent = '';
-        document.getElementById('login-btn').textContent = 'Log In';
-        document.getElementById('upgrade-btn').style.display = 'none';
-    }
-    updateContentVisibility();
-}
-
-function updateContentVisibility() {
-    const premiumContent = document.querySelectorAll('.premium-content');
-    premiumContent.forEach(element => {
-        element.style.display = isPaidUser ? 'block' : 'none';
-    });
-}
-
-document.getElementById('login-btn').addEventListener('click', function() {
-    isLoggedIn = !isLoggedIn;
-    checkUserStatus();
-});
-
-document.getElementById('upgrade-btn').addEventListener('click', function() {
-    if (isLoggedIn && !isPaidUser) {
-        // Here you would redirect to a payment page
-        alert('Redirecting to payment page...');
-        isPaidUser = true;
-        checkUserStatus();
-    }
-});
-
-checkUserStatus(); // Initial check
-
 });
