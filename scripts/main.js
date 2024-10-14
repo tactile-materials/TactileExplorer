@@ -1,20 +1,28 @@
 $(document).ready(function() {
     const materials = ['stainless-steel', 'carbon-steel', 'aluminum', 'plastic'];
     const alloys = ['6061', '7075', 'a36', 'a572'];
+    const youtubeVideos = [
+        'dQw4w9WgXcQ', 'jNQXAC9IVRw', '6-HUgzYPm9g', 'z9Uz1icjwrM',
+        'GimHHAID_P0', 'OV5_LQArLa0', 'OidS-g_KR_8', 'cZzK32Cfcq8',
+        'lWA2pjMjpBs', 'hT_nvWreIhg', 'JGwWNGJdvx8', 'kJQP7kiw5Fk',
+        'KDxJlW6cxRk', 'CevxZvSJLk8', 'qpgTC9MDx1o', 'DyDfgMOUjCI',
+        'YMEtpOXHSIE', '_dK2tDK9grQ', 'HMUDVMiITOU', '9bZkp7q19f0'
+    ];
     
-    // Generate 20 placeholder videos
-    for (let i = 1; i <= 20; i++) {
+    // Generate 20 YouTube videos with random tags
+    for (let i = 0; i < 20; i++) {
         const material = materials[Math.floor(Math.random() * materials.length)];
         const alloy = alloys[Math.floor(Math.random() * alloys.length)];
         const thickness = (Math.random() * 2).toFixed(2);
+        const videoId = youtubeVideos[i];
         
         $('.gallery').append(`
             <div class="video-item" data-material="${material}" data-alloy="${alloy}" data-thickness="${thickness}">
                 <div class="video-container">
-                    <img src="/api/placeholder/250/141" alt="placeholder" />
+                    <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="video-info">
-                    <h3>Material Sample ${i}</h3>
+                    <h3>Material Sample ${i + 1}</h3>
                     <div class="video-tags">
                         <span class="tag">${material.replace('-', ' ')}</span>
                         <span class="tag">${alloy}</span>
@@ -24,7 +32,6 @@ $(document).ready(function() {
             </div>
         `);
     }
-
     // Initialize thickness range slider
     $("#thickness-range").slider({
         range: true,
@@ -95,50 +102,42 @@ $(document).ready(function() {
     let isLoggedIn = false;
 let isPaidUser = false;
 
-function updateContentVisibility(member) {
-    $('.video-item').each(function() {
-        const isPremium = Math.random() < 0.3; // 30% chance of being premium content
-        if (isPremium) {
-            $(this).addClass('premium-content');
-            if (!(member && member.subscribed)) {
-                $(this).find('.video-container').html('<div class="premium-overlay">Premium Content</div>');
-            }
-        }
-    });
-
-    $('.premium-content').toggle(member && member.subscribed);
+function checkUserStatus() {
+    // This would typically involve a server request
+    // For this example, we'll use local variables
+    if (isLoggedIn) {
+        document.getElementById('user-status').textContent = isPaidUser ? 'Premium User' : 'Free User';
+        document.getElementById('login-btn').textContent = 'Log Out';
+        document.getElementById('upgrade-btn').style.display = isPaidUser ? 'none' : 'inline';
+    } else {
+        document.getElementById('user-status').textContent = '';
+        document.getElementById('login-btn').textContent = 'Log In';
+        document.getElementById('upgrade-btn').style.display = 'none';
+    }
+    updateContentVisibility();
 }
-$(document).ready(function() {
-    // Your existing code here
 
-    // Memberful integration
-    document.addEventListener('memberful.ready', function() {
-        Memberful.checkAuth(function(member) {
-            const loginBtn = document.getElementById('login-btn');
-            const signupBtn = document.getElementById('signup-btn');
-            const upgradeBtn = document.getElementById('upgrade-btn');
-            const userStatus = document.getElementById('user-status');
-
-            if (loginBtn && signupBtn && upgradeBtn && userStatus) {
-                if (member) {
-                    // User is logged in
-                    userStatus.textContent = 'Welcome, ' + member.full_name;
-                    loginBtn.textContent = 'Account';
-                    loginBtn.setAttribute('data-memberful-account', '');
-                    loginBtn.removeAttribute('data-memberful-sign-in');
-                    signupBtn.style.display = 'none';
-                    upgradeBtn.style.display = member.subscribed ? 'none' : 'inline';
-                } else {
-                    // User is not logged in
-                    userStatus.textContent = '';
-                    loginBtn.textContent = 'Log In';
-                    loginBtn.setAttribute('data-memberful-sign-in', '');
-                    loginBtn.removeAttribute('data-memberful-account');
-                    signupBtn.style.display = 'inline';
-                    upgradeBtn.style.display = 'none';
-                }
-            } else {
-                console.error('One or more required elements are missing from the DOM');
-            }
-        });
+function updateContentVisibility() {
+    const premiumContent = document.querySelectorAll('.premium-content');
+    premiumContent.forEach(element => {
+        element.style.display = isPaidUser ? 'block' : 'none';
     });
+}
+
+document.getElementById('login-btn').addEventListener('click', function() {
+    isLoggedIn = !isLoggedIn;
+    checkUserStatus();
+});
+
+document.getElementById('upgrade-btn').addEventListener('click', function() {
+    if (isLoggedIn && !isPaidUser) {
+        // Here you would redirect to a payment page
+        alert('Redirecting to payment page...');
+        isPaidUser = true;
+        checkUserStatus();
+    }
+});
+
+checkUserStatus(); // Initial check
+
+});
