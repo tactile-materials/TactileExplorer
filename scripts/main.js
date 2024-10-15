@@ -8,8 +8,8 @@ $(document).ready(function() {
         'KDxJlW6cxRk', 'CevxZvSJLk8', 'qpgTC9MDx1o', 'DyDfgMOUjCI',
         'YMEtpOXHSIE', '_dK2tDK9grQ', 'HMUDVMiITOU', '9bZkp7q19f0'
     ];
-    
-    // Generate 20 YouTube videos with random tags
+       
+    // Generate 20 video items with random tags, text overlay, and play button
     for (let i = 0; i < 20; i++) {
         const material = materials[Math.floor(Math.random() * materials.length)];
         const alloy = alloys[Math.floor(Math.random() * alloys.length)];
@@ -19,19 +19,24 @@ $(document).ready(function() {
         $('.gallery').append(`
             <div class="video-item" data-material="${material}" data-alloy="${alloy}" data-thickness="${thickness}">
                 <div class="video-container">
+                    <div class="video-overlay">
+                        <div class="overlay-text">Material Sample ${i + 1}</div>
+                        <div class="play-button">▶</div>
+                    </div>
                     <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
                 </div>
-                <div class="video-info">
-                    <h3>Material Sample ${i + 1}</h3>
-                    <div class="video-tags">
-                        <span class="tag">${material.replace('-', ' ')}</span>
-                        <span class="tag">${alloy}</span>
-                        <span class="tag">${thickness}"</span>
-                    </div>
-                </div>
+                
             </div>
         `);
     }
+    // Add click event to play the video
+    $('.video-overlay').on('click', function() {
+        $(this).hide();
+        const iframe = $(this).siblings('iframe');
+        const src = iframe.attr('src');
+        iframe.attr('src', src + '?autoplay=1');
+    });
+    
     // Initialize thickness range slider
     $("#thickness-range").slider({
         range: true,
