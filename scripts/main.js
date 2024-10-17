@@ -17,25 +17,43 @@ $(document).ready(function() {
         const videoId = youtubeVideos[i];
         
         $('.gallery').append(`
-            <div class="video-item" data-material="${material}" data-alloy="${alloy}" data-thickness="${thickness}">
+            <div class="video-item" data-material="${material}" data-alloy="${alloy}" data-thickness="${thickness}" data-video-id="${videoId}">
                 <div class="video-container">
                     <div class="video-overlay">
                         <div class="overlay-text">Material Sample ${i + 1}</div>
-                        <div class="play-button">▶</div>
+                        <div class="play-button"></div>
                     </div>
-                    <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
                 </div>
-                
+                <div class="video-info">
+                    <div class="video-tags">
+                        <span class="tag">${material.replace('-', ' ')}</span>
+                        <span class="tag">${alloy}</span>
+                        <span class="tag">${thickness}"</span>
+                    </div>
+                </div>
+                <div class="affiliate-link">
+                    <a href="#" target="_blank">Buy Material Sample ${i + 1} here!</a>
+                </div>
             </div>
         `);
     }
-    // Add click event to play the video
-    $('.video-overlay').on('click', function() {
-        $(this).hide();
-        const iframe = $(this).siblings('iframe');
-        const src = iframe.attr('src');
-        iframe.attr('src', src + '?autoplay=1');
-    });
+
+// Add click event to load and play the video
+$('.video-overlay').on('click', function() {
+    const videoItem = $(this).closest('.video-item');
+    const videoId = videoItem.data('video-id');
+    const videoContainer = videoItem.find('.video-container');
+    
+    // Remove the overlay
+    $(this).remove();
+    
+    // Create and append the iframe
+    const iframe = $(`<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allowfullscreen></iframe>`);
+    videoContainer.append(iframe);
+    
+    // Show the iframe
+    iframe.show();
+});
     
     // Initialize thickness range slider
     $("#thickness-range").slider({
