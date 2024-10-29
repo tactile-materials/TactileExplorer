@@ -49,7 +49,7 @@
                         </div>                         
                     </div>                     
                 </div>                 
-                <div class="filter-category" id="alloy-filters" style="padding-left: 0px; margin-left: -185px; padding-right: 0;"> 
+                <div class="filter-category" id="alloy-filters-1" style="padding-left: 0px; margin-left: -5px; padding-right: 0;"> 
                     <h3>Alloy/Polymer:</h3> 
                     <div class="filter-options" style="text-align: center;"> 
                         <div class="checkbox-wrapper"> 
@@ -82,7 +82,7 @@
                         </div>                         
                     </div>                     
                 </div>
-                <div class="filter-options" style="text-align: center; padding-top: 53px; padding-right: 0; padding-left: 0px; margin-left: -195px; margin-right: 140px; margin-top: -10px;"> 
+                <div class="filter-category" id="alloy-filters-2" style="text-align: center; padding-top: 53px; padding-right: 0; padding-left: 0px; margin-left: -40px; margin-right: 140px; margin-top: -10px;"> 
                     <div class="checkbox-wrapper"> 
                         <input type="checkbox" id="1045" class="filter-checkbox" data-category="alloy" data-filter="1045"> 
                         <label for="1045" class="filter-label">1045</label>                         
@@ -108,7 +108,7 @@
                         <label for="ABS" class="filter-label">ABS</label>                         
                     </div>                     
                 </div>
-                <div class="filter-options" style="text-align: center; padding-top: 53px; padding-right: 0; padding-left: 95px; margin-left: -196px; margin-right: 7px; margin-top: -10px;"> 
+                <div class="filter-category" id="alloy-filters-3" style="text-align: center; padding-top: 53px; padding-right: 0; padding-left: 0; margin-left: -180px; margin-right: 13px; margin-top: -10px;"> 
                     <div class="checkbox-wrapper"> 
                         <input type="checkbox" id="Nylon 6/6" class="filter-checkbox" data-category="alloy" data-filter="Nylon 6/6"> 
                         <label for="Nylon 6/6" class="filter-label">Nylon 6/6</label>                         
@@ -127,7 +127,12 @@
                     <div class="slider-container"> 
                         <div class="slider-range"> 
                             <div id="thickness-range"></div>                             
-                            <p> <span id="thickness-amount"></span> </p> 
+                            <div class="thickness-inputs">
+                                <input type="number" id="thickness-min" class="thickness-input" step="0.01" min="0">
+                                <span>to</span>
+                                <input type="number" id="thickness-max" class="thickness-input" step="0.01" min="0">
+                                <span>inches</span>
+                            </div>
                         </div>                         
                     </div>                     
                 </div>                 
@@ -143,4 +148,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>         
         <script src="scripts/main.js"></script>         
     </body>     
-</html>
+    12.1/jquery-ui.min.js">
+</script>
+<script src="scripts/main.js"></script>

@@ -63,7 +63,6 @@ header {
     color: #333;
     font-size: 0.9rem;
 }
-
 .filter-options {
     display: flex;
     flex-direction: column;
@@ -129,6 +128,44 @@ header {
     font-weight: 700;
     font-style: normal;
     color: #007c3e;
+}
+
+.thickness-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.thickness-input {
+    width: 70px;
+    padding: 5px;
+    border: 1px solid #007c3e;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.thickness-input:focus {
+    outline: none;
+    border-color: #005c2e;
+    box-shadow: 0 0 0 2px rgba(0,124,62,0.2);
+}
+
+/* Remove arrows from number inputs */
+.thickness-input::-webkit-outer-spin-button,
+.thickness-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.thickness-input[type=number] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 #thickness-range {
