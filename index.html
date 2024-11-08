@@ -14,18 +14,38 @@
 <body>
     <header>
         <div class="header-content">
-            <div class="logo"><img src="LOGO2.png" alt="TactileExplorer Logo"></div>
+            <div class="logo">
+                <img src="LOGO2.png" alt="TactileExplorer Logo">
+            </div>
+            
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-number">100+</span>
+                    <span class="stat-label">Material Videos</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">20+</span>
+                    <span class="stat-label">Material Types</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">New</span>
+                    <span class="stat-label">Weekly Updates</span>
+                </div>
+                <div class="stat-item">
+                    <a href="about.html" class="stat-number">About</a>
+                    <span class="stat-label">TactileExplorer</span>
+                </div>
+            </div>        
             <div class="premium-container">
                 <span class="premium-badge">
-                    <p>Join the Premium&nbsp;</p>
-                    <p style="padding-top: 0px;">Content Waitlist</p>
+                    <p>Premium Content Waitlist&nbsp;</p>
                 </span>
                 <a href="member.html" class="login-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="login-icon">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                         <circle cx="12" cy="7" r="4"></circle>
                     </svg>
-                    <span>JOIN!</span>
+                    JOIN!
                 </a>
             </div>
         </div>
@@ -33,127 +53,48 @@
 
     <div class="container">
         <div class="filters">
-            <!-- Material Type Filter -->
-<div id="material-filters" class="filter-category">
-    <h3>Material Type:</h3>
-    <div class="dropdown-container">
-        <button type="button" class="dropdown-toggle">Select Materials</button>
-        <div class="dropdown-menu" id="material-menu">
-            <div class="checkbox-options">
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox material-checkbox" id="stainless-steel" data-filter="stainless steel">
-                    <label for="stainless-steel" class="filter-label">Stainless Steel</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox material-checkbox" id="carbon-steel" data-filter="carbon steel">
-                    <label for="carbon-steel" class="filter-label">Carbon Steel</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox material-checkbox" id="aluminum" data-filter="aluminum">
-                    <label for="aluminum" class="filter-label">Aluminum</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox material-checkbox" id="plastic" data-filter="plastic">
-                    <label for="plastic" class="filter-label">Plastic</label>
+            <div id="material-filters" class="filter-category">
+                <h3>Material Type:</h3>
+                <div class="dropdown-container">
+                    <button class="dropdown-toggle">Select Materials</button>
+                    <div id="material-menu" class="dropdown-menu">
+                        <div class="checkbox-options">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                        <button class="done-button">Done</button>
+                    </div>
                 </div>
             </div>
-            <button type="button" class="done-button">Done</button>
-        </div>
-    </div>
-</div>
-
-<!-- Alloy/Polymer Filter -->
-<div id="alloy-filters" class="filter-category">
-    <h3>Alloy/Polymer:</h3>
-    <div class="dropdown-container">
-        <button type="button" class="dropdown-toggle">Select Alloys</button>
-        <div class="dropdown-menu" id="alloy-menu">
-            <div class="checkbox-options">
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-304" data-filter="304">
-                    <label for="alloy-304" class="filter-label">304</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-316" data-filter="316">
-                    <label for="alloy-316" class="filter-label">316</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-430" data-filter="430">
-                    <label for="alloy-430" class="filter-label">430</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-410" data-filter="410">
-                    <label for="alloy-410" class="filter-label">410</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-a36" data-filter="a36">
-                    <label for="alloy-a36" class="filter-label">a36</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-1018" data-filter="1018">
-                    <label for="alloy-1018" class="filter-label">1018</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-1045" data-filter="1045">
-                    <label for="alloy-1045" class="filter-label">1045</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-6061" data-filter="6061">
-                    <label for="alloy-6061" class="filter-label">6061</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-6063" data-filter="6063">
-                    <label for="alloy-6063" class="filter-label">6063</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-5000" data-filter="5000">
-                    <label for="alloy-5000" class="filter-label">5000 (series)</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-7000" data-filter="7000">
-                    <label for="alloy-7000" class="filter-label">7000 (series)</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-abs" data-filter="ABS">
-                    <label for="alloy-abs" class="filter-label">ABS</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-nylon" data-filter="Nylon 6/6">
-                    <label for="alloy-nylon" class="filter-label">Nylon 6/6</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-pvc" data-filter="PVC">
-                    <label for="alloy-pvc" class="filter-label">PVC</label>
-                </div>
-                <div class="checkbox-wrapper">
-                    <input type="checkbox" class="filter-checkbox alloy-checkbox" id="alloy-hdpe" data-filter="HDPE">
-                    <label for="alloy-hdpe" class="filter-label">HDPE</label>
+        
+            <div id="alloy-filters" class="filter-category">
+                <h3>Alloy/Polymer:</h3>
+                <div class="dropdown-container">
+                    <button class="dropdown-toggle">Select Alloys</button>
+                    <div id="alloy-menu" class="dropdown-menu">
+                        <div class="checkbox-options">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                        <button class="done-button">Done</button>
+                    </div>
                 </div>
             </div>
-            <button type="button" class="done-button">Done</button>
-        </div>
-    </div>
-</div>
-
-            <!-- Thickness Filter -->
-            <div class="filter-category" id="thickness-filters">
+        
+            <div id="thickness-filters" class="filter-category">
                 <h3>Thickness:</h3>
                 <div class="slider-container">
                     <div class="slider-range">
                         <div id="thickness-range"></div>
                         <div class="thickness-inputs">
-                            <input type="number" id="thickness-min" class="thickness-input" step="0.001" min="0">
-                            <span>to</span>
-                            <input type="number" id="thickness-max" class="thickness-input" step="0.001" min="0">
-                            <span>inches</span>
+                            <input type="number" id="thickness-min" class="thickness-input" step="0.001" min="0" max="0.5">
+                            to
+                            <input type="number" id="thickness-max" class="thickness-input" step="0.001" min="0" max="0.5">
+                            inches
                         </div>
                     </div>
                 </div>
             </div>
-
-            <button class="reset-btn" id="reset-filters">Reset</button>
+            <button id="reset-filters" class="reset-btn">Reset</button>
         </div>
-
         <div class="gallery">
             <!-- Videos will be inserted here by JavaScript -->
         </div>
