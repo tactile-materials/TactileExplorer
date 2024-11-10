@@ -108,6 +108,55 @@ a.stat-number:hover {
     letter-spacing: 0.5px;
     line-height: 1.0;  /* Reduces spacing between text lines */
 }
+.member-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+}
+
+.form-container {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: white;
+    min-height: 1500px;
+}
+
+.google-form-container {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    height: 100%;
+}
+
+.google-form-container iframe {
+    width: 100% !important;
+    height: 1500px;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+.form-title {
+    text-align: center;
+    color: #007c3e;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-subtitle {
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-bottom: 25px;
+    line-height: 1.4;
+    font-family: 'Roboto', sans-serif;
+}
 
 .login-button {
     display: flex;
