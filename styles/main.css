@@ -182,6 +182,17 @@ a.stat-number:hover {
     stroke-width: 2;
 }
 
+@media screen and (max-width: 768px) {
+    .member-container,
+    .form-container,
+    .google-form-container,
+    .google-form {
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* Improved scrolling on iOS */
+    }
+}
+
 /* Filter Section Styles */
 .filters {
     display: flex;
