@@ -545,3 +545,81 @@ a.stat-number:hover {
     }
 }
 }
+/* Popup Styles */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+    width: 95%;
+    max-width: 600px;
+    max-height: 90vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    flex-shrink: 0;
+    padding: 0 5px;
+}
+
+.popup-header h2 {
+    margin: 0;
+    color: #007c3e;
+    font-size: 1.2rem;
+}
+
+.close-popup {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    color: #666;
+}
+
+.popup-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.popup-body iframe {
+    width: 100%;
+    height: 1500px; /* Fixed height to match your original form height */
+    border: none;
+}
+
+/* Prevent body scroll when popup is open */
+body.popup-open {
+    overflow: hidden;
+}
+
+/* Mobile styles for popup */
+@media screen and (max-width: 768px) {
+    .popup-content {
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+}
