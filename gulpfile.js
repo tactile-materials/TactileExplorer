@@ -38,23 +38,26 @@ function images() {
         .pipe(gulp.dest('dist/images'));
 }
 
-// Watch for changes
-function watch() {
-    gulp.watch('src/js/*.js', scripts);
-    gulp.watch('src/css/*.css', styles);
-    gulp.watch('src/*.html', html);
-    gulp.watch('public/images/*', images);
-}
-
 // Export tasks
 exports.scripts = scripts;
 exports.styles = styles;
 exports.html = html;
 exports.images = images;
-exports.watch = watch;
 
-// Default task
-exports.default = gulp.series(
-    gulp.parallel(scripts, styles, html, images),
-    watch
-);
+// Build task (no watch) - this is what Vercel will use
+exports.build = gulp.parallel(scripts, styles, html, images);
+
+// Default task for local development (includes watch)
+if (process.env.NODE_ENV !== 'production') {
+    exports.default = gulp.series(
+        gulp.parallel(scripts, styles, html, images),
+        function watch() {
+            gulp.watch('src/js/*.js', scripts);
+            gulp.watch('src/css/*.css', styles);
+            gulp.watch('src/*.html', html);
+            gulp.watch('public/images/*', images);
+        }
+    );
+} else {
+    exports.default = exports.build;
+}
