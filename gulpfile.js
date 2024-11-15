@@ -2,7 +2,6 @@ const gulp = require('gulp');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const cleanCSS = require('gulp-clean-css');
-const htmlmin = require('gulp-htmlmin');
 
 // Minify JavaScript
 function scripts() {
@@ -20,41 +19,27 @@ function styles() {
         .pipe(gulp.dest('dist/css'));
 }
 
-// Minify HTML
-function html() {
-    return gulp.src('src/*.html')
-        .pipe(htmlmin({ 
-            collapseWhitespace: true,
-            removeComments: true,
-            minifyJS: true,
-            minifyCSS: true
-        }))
-        .pipe(gulp.dest('dist'));
-}
-
 // Copy images
 function images() {
     return gulp.src('public/images/*')
-        .pipe(gulp.dest('dist/images'));
+        .pipe(gulp.dest('public/images'));
 }
 
 // Export tasks
 exports.scripts = scripts;
 exports.styles = styles;
-exports.html = html;
 exports.images = images;
 
 // Build task (no watch) - this is what Vercel will use
-exports.build = gulp.parallel(scripts, styles, html, images);
+exports.build = gulp.parallel(scripts, styles, images);
 
 // Default task for local development (includes watch)
 if (process.env.NODE_ENV !== 'production') {
     exports.default = gulp.series(
-        gulp.parallel(scripts, styles, html, images),
+        gulp.parallel(scripts, styles, images),
         function watch() {
             gulp.watch('src/js/*.js', scripts);
             gulp.watch('src/css/*.css', styles);
-            gulp.watch('src/*.html', html);
             gulp.watch('public/images/*', images);
         }
     );
