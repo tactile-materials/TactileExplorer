@@ -191,6 +191,16 @@ a.stat-number:hover {
         overflow-y: auto;
         -webkit-overflow-scrolling: touch; /* Improved scrolling on iOS */
     }
+    .overlay-text {
+        font-size: 0.8rem;  /* Even smaller on mobile */
+    }
+}
+
+/* For very small screens */
+@media screen and (max-width: 480px) {
+    .overlay-text {
+        font-size: 0.7rem;  /* Smallest size */
+    }
 }
 
 /* Filter Section Styles */
@@ -417,9 +427,16 @@ a.stat-number:hover {
 }
 
 .overlay-text {
-    font-size: 1.2rem;
+    font-size: 0.9rem;
     font-weight: bold;
-    margin-bottom: 10px;
+    text-align: center;
+    padding: 0 10px;
+    width: 100%;
+    position: absolute;
+    top: 35%;        /* Changed from 50% to move it higher */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
 }
 
 .play-button {
@@ -432,7 +449,10 @@ a.stat-number:hover {
     align-items: center;
     transition: transform 0.2s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    position: relative;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .play-button::before {
@@ -449,7 +469,7 @@ a.stat-number:hover {
 }
 
 .video-overlay:hover .play-button {
-    transform: scale(1.1);
+    transform: translate(-50%, -50%) scale(1.05);  /* Changed from 1.1 to 1.05 for subtler effect */
 }
 
 /* Hide video tags and info */

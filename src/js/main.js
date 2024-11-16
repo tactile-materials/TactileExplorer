@@ -32,20 +32,77 @@ $(document).ready(function() {
             throw error;
         });
     }
+    $("#thickness-range").slider({
+        range: true,
+        min: 0,
+        max: 0.5,
+        step: 0.001,
+        values: [0, 0.5],
+        slide: function(event, ui) {
+            $("#thickness-min").val(ui.values[0].toFixed(3));
+            $("#thickness-max").val(ui.values[1].toFixed(3));
+            
+            const checkedMaterials = $('.material-checkbox:checked').map(function() {
+                return $(this).attr('data-filter');
+            }).get();
+            
+            const checkedShapes = $('.shape-checkbox:checked').map(function() {
+                return $(this).attr('data-filter');
+            }).get();
+            
+            const checkedAlloys = $('.alloy-checkbox:checked').map(function() {
+                return $(this).attr('data-filter');
+            }).get();
+            
+            applyFilters(checkedMaterials, checkedShapes, checkedAlloys);
+        }
+    });
 
+    // Initialize thickness input fields
+    $("#thickness-min").val("0.000");
+    $("#thickness-max").val("0.500");
+
+    // Handle manual input in thickness fields
+    $("#thickness-min, #thickness-max").on('input', function() {
+        const min = parseFloat($("#thickness-min").val()) || 0;
+        const max = parseFloat($("#thickness-max").val()) || 0.5;
+        
+        // Update slider
+        $("#thickness-range").slider("values", [min, max]);
+        
+        // Apply filters
+        const checkedMaterials = $('.material-checkbox:checked').map(function() {
+            return $(this).attr('data-filter');
+        }).get();
+        
+        const checkedShapes = $('.shape-checkbox:checked').map(function() {
+            return $(this).attr('data-filter');
+        }).get();
+        
+        const checkedAlloys = $('.alloy-checkbox:checked').map(function() {
+            return $(this).attr('data-filter');
+        }).get();
+        
+        applyFilters(checkedMaterials, checkedShapes, checkedAlloys);
+    });
     // Add this function inside your $(document).ready(function() { block, before setting up event handlers
-function updateDropdownLabels() {
-    const materialText = $('.material-checkbox:checked').map(function() {
-        return $(this).siblings('label').text().trim();
-    }).get().join(', ') || 'Select Materials';
-    
-    const alloyText = $('.alloy-checkbox:checked').map(function() {
-        return $(this).siblings('label').text().trim();
-    }).get().join(', ') || 'Select Alloys';
-    
-    $('#material-filters .dropdown-toggle').text(materialText);
-    $('#alloy-filters .dropdown-toggle').text(alloyText);
-}
+    function updateDropdownLabels() {
+        const materialText = $('.material-checkbox:checked').map(function() {
+            return $(this).siblings('label').text().trim();
+        }).get().join(', ') || 'Select Materials';
+        
+        const shapeText = $('.shape-checkbox:checked').map(function() {
+            return $(this).siblings('label').text().trim();
+        }).get().join(', ') || 'Select Shapes';
+        
+        const alloyText = $('.alloy-checkbox:checked').map(function() {
+            return $(this).siblings('label').text().trim();
+        }).get().join(', ') || 'Select Alloys';
+        
+        $('#material-filters .dropdown-toggle').text(materialText);
+        $('#shape-filters .dropdown-toggle').text(shapeText);
+        $('#alloy-filters .dropdown-toggle').text(alloyText);
+    }
 
 // Then your reset handler should work as intended:
 $('#reset-filters').click(function() {
@@ -68,29 +125,35 @@ $('#reset-filters').click(function() {
     });
 });
 
-    function parseVideoTitle(title) {
-        console.log('=== Video Title Parsing ===');
-        console.log('Original title:', title);
-        
-        const parts = title.split(',').map(part => part.trim());
-        console.log('Parts after split:', parts);
-        
-        const thickness = parts[0];
-        const material = parts[1] ? parts[1].toLowerCase() : '';
-        const alloy = parts[2] ? parts[2].toLowerCase().trim() : '';
-        
-        console.log('Individual parts:', {
-            thickness,
-            material,
-            alloy
-        });
+function parseVideoTitle(title) {
+    console.log('=== Video Title Parsing ===');
+    console.log('Original title:', title);
+    
+    const cleanTitle = title.replace(/["']/g, '');
+    const parts = cleanTitle.split(',').map(part => part.trim());
+    console.log('Parts after split:', parts);
+    
+    // Extract just the number from the thickness
+    const thickness = parseFloat(parts[0]) || 0;
+    const material = parts[1] ? parts[1].toLowerCase().trim() : '';
+    // Now correctly get shape from third part and alloy from fourth part
+    const shape = parts[2] ? parts[2].toLowerCase().trim() : '';
+    const alloy = parts[3] ? parts[3].trim() : ''; // Keep original case for alloy
+    
+    console.log('Final parsed values:', {
+        thickness: thickness,
+        material: material,
+        shape: shape,
+        alloy: alloy
+    });
 
-        return {
-            thickness: thickness,
-            material: material,
-            alloy: alloy
-        };
-    }
+    return {
+        thickness: thickness,
+        material: material,
+        shape: shape,
+        alloy: alloy
+    };
+}
 
     function formatVideoTitle(video) {
         if (!video || !video.material || !video.alloy) {
@@ -148,16 +211,19 @@ $('#reset-filters').click(function() {
 
     function populateFilterOptions(videoData) {
         const materials = new Set();
+        const shapes = new Set();
         const alloys = new Set();
         
         // Populate the Sets first
         videoData.forEach(video => {
             if (video.material) materials.add(video.material.toLowerCase().trim());
+            if (video.shape) shapes.add(video.shape.toLowerCase().trim());
             if (video.alloy) alloys.add(video.alloy.toLowerCase().trim());
         });
         
         // Clear existing options
         $('#material-menu .checkbox-options').empty();
+        $('#shape-menu .checkbox-options').empty();
         $('#alloy-menu .checkbox-options').empty();
         
         // Populate material options
@@ -174,6 +240,21 @@ $('#reset-filters').click(function() {
                 </div>
             `);
         });
+    
+        // Populate shape options
+        shapes.forEach(shape => {
+            const displayShape = shape.split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+                
+            $('#shape-menu .checkbox-options').append(`
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" class="filter-checkbox shape-checkbox" 
+                           data-filter="${shape}" id="shape-${shape.replace(/\s+/g, '-')}">
+                    <label for="shape-${shape.replace(/\s+/g, '-')}">${displayShape}</label>
+                </div>
+            `);
+        });
         
         // Populate alloy options
         alloys.forEach(alloy => {
@@ -182,7 +263,7 @@ $('#reset-filters').click(function() {
                     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(' ') : 
                 alloy.toUpperCase();
-
+    
             $('#alloy-menu .checkbox-options').append(`
                 <div class="checkbox-wrapper">
                     <input type="checkbox" class="filter-checkbox alloy-checkbox" 
@@ -201,13 +282,16 @@ $('#reset-filters').click(function() {
             $('.gallery').empty();
             
             videoData.forEach((video) => {
+                console.log('Creating video item with:', video);  // Add this debug line
+                
                 const formattedTitle = formatVideoTitle(video);
                 const formattedAlt = formatVideoAlt(video);
                 const formattedAriaLabel = formatAriaLabel(video);
-
+    
                 $('.gallery').append(`
                     <div class="video-item" 
                         data-material="${video.material}" 
+                        data-shape="${video.shape}"
                         data-alloy="${video.alloy}" 
                         data-thickness="${video.thickness}" 
                         data-video-id="${video.id}">
@@ -223,9 +307,10 @@ $('#reset-filters').click(function() {
                         </div>
                         <div class="video-info">
                             <div class="video-tags">
-                                <span class="tag">${video.material.replace('-', ' ')}</span>
-                                <span class="tag">${video.alloy}</span>
-                                <span class="tag">${video.thickness}</span>
+                                <span class="tag">Material: ${video.material}</span>
+                                <span class="tag">Shape: ${video.shape}</span>
+                                <span class="tag">Alloy: ${video.alloy}</span>
+                                <span class="tag">Thickness: ${video.thickness}</span>
                             </div>
                         </div>
                     </div>
@@ -329,36 +414,38 @@ $('#reset-filters').click(function() {
     }
 
     // Update the applyFilters function
-function applyFilters(checkedMaterials = [], checkedAlloys = []) {
-    // Get current thickness range values
-    const minThickness = parseFloat($("#thickness-min").val()) || 0;
-    const maxThickness = parseFloat($("#thickness-max").val()) || 0.5;
-    
-    console.log('Applying filters:', {
-        materials: checkedMaterials,
-        alloys: checkedAlloys,
-        thickness: { min: minThickness, max: maxThickness }
-    });
-    
-    $('.video-item').each(function() {
-        const $item = $(this);
-        const material = String($item.attr('data-material') || '').toLowerCase().trim();
-        const alloy = String($item.attr('data-alloy') || '').toLowerCase().trim();
-        const thickness = parseFloat($item.attr('data-thickness')) || 0;
+    function applyFilters(checkedMaterials = [], checkedShapes = [], checkedAlloys = []) {
+        // Get current thickness range values
+        const minThickness = parseFloat($("#thickness-min").val()) || 0;
+        const maxThickness = parseFloat($("#thickness-max").val()) || 0.5;
         
-        const materialMatch = checkedMaterials.length === 0 || 
-                            checkedMaterials.map(m => m.toLowerCase().trim()).includes(material);
-        const alloyMatch = checkedAlloys.length === 0 || 
-                          checkedAlloys.map(a => a.toLowerCase().trim()).includes(alloy);
-        const thicknessMatch = thickness >= minThickness && thickness <= maxThickness;
+        console.log('Applying filters with thickness range:', minThickness, 'to', maxThickness);
         
-        if (materialMatch && alloyMatch && thicknessMatch) {
-            $item.show();
-        } else {
-            $item.hide();
-        }
-    });
-}
+        $('.video-item').each(function() {
+            const $item = $(this);
+            const material = String($item.attr('data-material') || '').toLowerCase().trim();
+            const shape = String($item.attr('data-shape') || '').toLowerCase().trim();
+            const alloy = String($item.attr('data-alloy') || '').toLowerCase().trim();
+            // Convert thickness to a number, removing any quotes or other characters
+            const thickness = parseFloat($item.attr('data-thickness').replace(/['"]/g, '')) || 0;
+            
+            console.log('Item thickness:', thickness, 'Testing against range:', minThickness, '-', maxThickness);
+            
+            const materialMatch = checkedMaterials.length === 0 || 
+                                checkedMaterials.map(m => m.toLowerCase().trim()).includes(material);
+            const shapeMatch = checkedShapes.length === 0 || 
+                              checkedShapes.map(s => s.toLowerCase().trim()).includes(shape);
+            const alloyMatch = checkedAlloys.length === 0 || 
+                              checkedAlloys.map(a => a.toLowerCase().trim()).includes(alloy);
+            const thicknessMatch = thickness >= minThickness && thickness <= maxThickness;
+            
+            if (materialMatch && shapeMatch && alloyMatch && thicknessMatch) {
+                $item.show();
+            } else {
+                $item.hide();
+            }
+        });
+    }
 
 // Update the reset filters click handler
 $('#reset-filters').click(function() {
@@ -405,12 +492,16 @@ $('#reset-filters').click(function() {
             return $(this).attr('data-filter');
         }).get();
         
+        const checkedShapes = $('.shape-checkbox:checked').map(function() {
+            return $(this).attr('data-filter');
+        }).get();
+        
         const checkedAlloys = $('.alloy-checkbox:checked').map(function() {
             return $(this).attr('data-filter');
         }).get();
         
         $(this).closest('.dropdown-menu').removeClass('show');
-        applyFilters(checkedMaterials, checkedAlloys);
+        applyFilters(checkedMaterials, checkedShapes, checkedAlloys);
         updateDropdownLabels();
     });
 
