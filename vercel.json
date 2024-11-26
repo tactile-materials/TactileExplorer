@@ -11,11 +11,36 @@
   ],
   "routes": [
     {
-      "src": "/",
+      "src": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.tactileexplorer.com"
+        }
+      ],
+      "status": 301,
+      "headers": {
+        "Location": "https://tactileexplorer.com/$1"
+      }
+    },
+    {
+      "src": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "tactileexplorer.com"
+        }
+      ],
+      "headers": {
+        "X-Robots-Tag": "all"
+      }
+    },
+    {
+      "src": "^/?$",
       "dest": "/index.html"
     },
     {
-      "src": "/about",
+      "src": "/about/?$",
       "dest": "/about.html"
     },
     {
@@ -23,8 +48,9 @@
       "dest": "/_vercel/insights/script.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "handle": "filesystem"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }
